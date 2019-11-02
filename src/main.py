@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import random
 import os
 from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
@@ -8,6 +9,8 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from models import db
+
+
 #from models import Person
 
 app = Flask(__name__)
@@ -17,6 +20,67 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
+
+class Family:
+
+    def __init__(self, last_name):
+        self.last_name = last_name
+        # example list of members
+        self._members = [{
+            "id": self._generateId(),
+            "first_name": "John",
+            "last_name": "Doe",
+            "age": 33,
+            "gender": "Male",
+            "luky_number": [7,3,22]
+
+        },{
+            "id": self._generateId(),
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "age": 35,
+            "gender": "Female",
+            "luky_number": [10,14,3]
+
+        },{
+            "id": self._generateId(),
+            "first_name": "Jimmy",
+            "last_name": "Doe",
+            "age": 5,
+            "gender": "Male",
+            "luky_number": [1]
+
+        }]
+
+
+    # read-only: Use this method to generate random members ID's when adding members into the list
+    def _generateId(self):
+        return random.randint(0, 99999999)
+
+    def add_member(self, member):
+        ## you have to implement this method
+        ## append the member to the list of _members
+        pass
+
+    def delete_member(self, id):
+        ## you have to implement this method
+        ## loop the list and delete the member with the given id
+        pass
+
+    def update_member(self, id, member):
+        ## you have to implement this method
+        ## loop the list and replace the memeber with the given id
+        pass
+
+    def get_member(self, id):
+        ## you have to implement this method
+        ## loop all the members and return the one with the given id
+        pass
+
+    def get_all_members(self):
+        return self._members
+
+doe_family = Family("Doe")
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
@@ -32,8 +96,16 @@ def sitemap():
 def handle_hello():
 
     response_body = {
-        "hello": "world"
+        "hello": "world",
+        "hakuna": "matata"
     }
+
+    return jsonify(response_body), 200
+
+@app.route('/members', methods=['GET'])
+def doe_family.get_all_members():
+
+
 
     return jsonify(response_body), 200
 
