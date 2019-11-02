@@ -73,6 +73,7 @@ class Family:
         pass
 
     def get_member(self, id):
+
         ## you have to implement this method
         ## loop all the members and return the one with the given id
         pass
@@ -103,11 +104,14 @@ def handle_hello():
     return jsonify(response_body), 200
 
 @app.route('/members', methods=['GET'])
-def doe_family.get_all_members():
+def bubu():
 
+    response = {
+        "members": doe_family.get_all_members(),
+        "last_name": doe_family.last_name,
+    }
 
-
-    return jsonify(response_body), 200
+    return jsonify(response), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
